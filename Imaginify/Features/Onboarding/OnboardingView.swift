@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct OnboardingView: View {
-    
+    @State private var currentIndex = 0
+    private let pageCount = 3
     init() {
         UIPageControl.appearance().currentPageIndicatorTintColor = UIColor(.primary_color)
     }
     
     var body: some View {
-        VStack (alignment: .center) {
-            TabView {
+        VStack (alignment: .leading, spacing: 0) {
+            TabView (selection: $currentIndex) {
                 OnboardingImage(tag: 0)
                     .tag(0)
                 OnboardingImage(tag: 1)
@@ -23,9 +24,12 @@ struct OnboardingView: View {
                 OnboardingImage(tag: 2)
                     .tag(2)
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
+            .tabViewStyle(.page(indexDisplayMode: .never))
+            .background(Color(.blue))
+            
+            CustomPageIndicator(currentIndex: currentIndex, pageCount: pageCount)
             Button("Continue with email") {}
-            Spacer()
+                .padding()
         }.background(Color.background_app.ignoresSafeArea(.all))
         
         
@@ -48,7 +52,22 @@ struct OnboardingImage: View {
                 .frame(width: 380, height: 380)
                 .tag(0)
             Text(Constants.onboardingDescription[tag])
-                .frame(width: 380, height: 150)
+                .fontTemplate(AppFontTemplate.h2)
+        }
+    }
+}
+
+struct CustomPageIndicator: View {
+    var currentIndex: Int
+    let pageCount: Int
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            ForEach(0..<pageCount, id:\.self) { index in
+                Circle()
+                    .foregroundColor(index == currentIndex ? .primary_color : .gray)
+                    .frame(width: 10, height: 10)
+            }
         }
     }
 }

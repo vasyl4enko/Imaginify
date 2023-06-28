@@ -18,18 +18,17 @@ public class FontTemplate {
     public var weight: Font.Weight
 //    public var foregroundColor: Color
     public var italic: Bool
-    public var lineSpacing: CGFloat
+//    public var lineSpacing: CGFloat
     public init(font: Font,
                 weight: Font.Weight,
 //                foregroundColor: Color,
-                italic: Bool = false,
-                lineSpacing: CGFloat = 10.0) {
+                italic: Bool = false) {
         self.id = UUID()
         self.font = font
         self.weight = weight
 //        self.foregroundColor = foregroundColor
         self.italic = italic
-        self.lineSpacing = lineSpacing
+//        self.lineSpacing = lineSpacing
     }
 }
 
@@ -43,20 +42,25 @@ struct FontTemplateModifier: ViewModifier {
             .font(template.font
                     .weight(template.weight)
                     .italic(template.italic))
-            .lineSpacing(template.lineSpacing)
+//            .lineSpacing(template.lineSpacing)
     }
 }
 
 struct AppFontTemplate {
     // MARK: Poppins
     static let h2 = FontTemplate(font: Font.custom(AppFont.poppinsSemiBold.rawValue, size: 40),
-                                 weight: .bold,
-                                 lineSpacing: 48)
+                                 weight: .semibold)
     // MARK: Plus Jakarta Sans
 }
 
 extension Font {
     public func italic(_ value: Bool) -> Font {
         return value ? self.italic() : self
+    }
+}
+
+extension View {
+    public func fontTemplate(_ template: FontTemplate) -> some View {
+        modifier(FontTemplateModifier(template: template))
     }
 }

@@ -15,7 +15,7 @@ struct OnboardingView: View {
     }
     
     var body: some View {
-        VStack (alignment: .leading, spacing: 0) {
+        VStack (alignment: .leading) {
             TabView (selection: $currentIndex) {
                 OnboardingImage(tag: 0)
                     .tag(0)
@@ -25,9 +25,10 @@ struct OnboardingView: View {
                     .tag(2)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .background(Color(.blue))
+            .frame(height: 600)
             
             CustomPageIndicator(currentIndex: currentIndex, pageCount: pageCount)
+            Spacer()
             Button("Continue with email") {}
                 .padding()
         }.background(Color.background_app.ignoresSafeArea(.all))
@@ -53,7 +54,11 @@ struct OnboardingImage: View {
                 .tag(0)
             Text(Constants.onboardingDescription[tag])
                 .fontTemplate(AppFontTemplate.h2)
+//                                .padding(.horizontal)
+//            Spacer()
         }
+        .frame(maxHeight: .infinity)
+        .padding(.top, 8)
     }
 }
 
